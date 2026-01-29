@@ -1,38 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CQQL Query Engine</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
-            background: #fafafa;
-            color: #222;
-        }
-        h1, h2, h3 {
-            color: #2b4c7e;
-        }
-        code, pre {
-            background: #f0f0f0;
-            padding: 4px 6px;
-            border-radius: 4px;
-        }
-        pre {
-            padding: 10px;
-            overflow-x: auto;
-        }
-        ul {
-            margin-left: 20px;
-        }
-        hr {
-            margin: 30px 0;
-        }
-    </style>
-</head>
-<body>
-
 <h1>CQQL Query Engine</h1>
 <h3>Practical Assignment 3 – Logic in Databases</h3>
 <h4>BTU Cottbus–Senftenberg</h4>
