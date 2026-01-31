@@ -1,30 +1,12 @@
-# cqql/parser.py
-# -------------------------------------------------
-# Recursive-descent parser for CQQL formulas.
-# Grammar (precedence):
-#   expr    := or_expr
-#   or_expr := and_expr ('|' and_expr)*
-#   and_expr:= unary ('&' unary)*
-#   unary   := '!' unary | primary
-#   primary := ATOM | '(' expr ')' | WAND(...) | WOR(...)
-#
-# Weighted forms:
-#   WAND(theta1,theta2, expr, expr)
-#   WOR(theta1,theta2, expr, expr)
-# -------------------------------------------------
-
 from dataclasses import dataclass
 from typing import List, Optional
-
 from cqql.ast import Atom, Not, And, Or, WeightedAnd, WeightedOr, Formula
 
 
-# ----------------------------
-# Tokenizer
-# ----------------------------
+
 @dataclass
 class Token:
-    kind: str   # 'ATOM', 'OP', 'LPAREN', 'RPAREN', 'COMMA', 'EOF'
+    kind: str
     value: str
 
 
@@ -63,7 +45,7 @@ def tokenize(s: str) -> List[Token]:
             i += 1
             continue
 
-        # identifier: ATOM / function name (WAND/WOR)
+
         if ch.isalpha() or ch == "_":
             j = i + 1
             while j < n and is_ident_char(s[j]):
@@ -79,9 +61,7 @@ def tokenize(s: str) -> List[Token]:
     return tokens
 
 
-# ----------------------------
-# Parser
-# ----------------------------
+
 class Parser:
     def __init__(self, tokens: List[Token]):
         self.tokens = tokens
@@ -108,13 +88,13 @@ class Parser:
         self.pos += 1
         return True
 
-    # expr := or_expr
+
     def parse(self) -> Formula:
         expr = self.parse_or()
         self.consume("EOF")
         return expr
 
-    # or_expr := and_expr ('|' and_expr)*
+
     def parse_or(self) -> Formula:
         left = self.parse_and()
         while self.match("OP", "|"):
@@ -122,7 +102,7 @@ class Parser:
             left = Or(left, right)
         return left
 
-    # and_expr := unary ('&' unary)*
+
     def parse_and(self) -> Formula:
         left = self.parse_unary()
         while self.match("OP", "&"):
@@ -130,27 +110,27 @@ class Parser:
             left = And(left, right)
         return left
 
-    # unary := '!' unary | primary
+
     def parse_unary(self) -> Formula:
         if self.match("OP", "!"):
             return Not(self.parse_unary())
         return self.parse_primary()
 
-    # primary := ATOM | '(' expr ')' | WAND(...) | WOR(...)
+
     def parse_primary(self) -> Formula:
         tok = self.peek()
 
-        # parenthesized expression
+
         if self.match("LPAREN"):
             e = self.parse_or()
             self.consume("RPAREN")
             return e
 
-        # must start with ATOM token (either identifier or WAND/WOR)
+
         if tok.kind == "ATOM":
             ident = self.consume("ATOM").value
 
-            # function call?
+
             if ident in ("WAND", "WOR") and self.match("LPAREN"):
                 theta1 = self.consume("ATOM").value
                 self.consume("COMMA")
@@ -166,7 +146,7 @@ class Parser:
                 else:
                     return WeightedOr(theta1, theta2, left, right)
 
-            # plain atom
+
             return Atom(ident)
 
         raise ValueError(f"Unexpected token {tok.kind} ('{tok.value}') at position {self.pos}")

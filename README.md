@@ -122,7 +122,7 @@ Text and proximity atoms return values in <strong>[0,1]</strong>.
 The project includes a dataset of Berlin apartments with boolean, proximity,
 and text-based attributes.
 </p>
-<h2>12. Sample CQQL Queries</h2>
+<h2>11. Sample CQQL Queries</h2>
 <p>The following queries demonstrate the supported syntax and increasing complexity.</p>
 
 <h3>Basic Queries</h3>
@@ -150,7 +150,7 @@ Q10: WOR(theta_text,theta_price, (quiet | modern), (price__low & dist__near)) & 
 </pre>
 
 
-<h2>11. Authors</h2>
+<h2>12. Authors</h2>
 <ul>
     <li>Sai Tharun Aditya, Kesana</li>
     <li>Salman</li>

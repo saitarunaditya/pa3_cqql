@@ -1,8 +1,3 @@
-# cqql/ast.py
-# -------------------------------------------------
-# Abstract Syntax Tree (AST) for CQQL formulas
-# -------------------------------------------------
-
 class Formula:
     """Base class for all CQQL formulas."""
 
@@ -17,9 +12,7 @@ class Formula:
         return str(self)
 
 
-# -------------------------------------------------
-# Atomic formula
-# -------------------------------------------------
+
 class Atom(Formula):
     def __init__(self, name):
         self.name = name
@@ -31,9 +24,7 @@ class Atom(Formula):
         return self.name
 
 
-# -------------------------------------------------
-# Negation
-# -------------------------------------------------
+
 class Not(Formula):
     def __init__(self, sub):
         self.sub = sub
@@ -45,9 +36,7 @@ class Not(Formula):
         return f"!({self.sub})"
 
 
-# -------------------------------------------------
-# Conjunction
-# -------------------------------------------------
+
 class And(Formula):
     def __init__(self, left, right):
         self.left = left
@@ -60,9 +49,7 @@ class And(Formula):
         return f"({self.left} & {self.right})"
 
 
-# -------------------------------------------------
-# Disjunction
-# -------------------------------------------------
+
 class Or(Formula):
     def __init__(self, left, right):
         self.left = left
@@ -75,10 +62,7 @@ class Or(Formula):
         return f"({self.left} | {self.right})"
 
 
-# -------------------------------------------------
-# Weighted conjunction
-# WAND(theta1, theta2, φ1, φ2)
-# -------------------------------------------------
+
 class WeightedAnd(Formula):
     def __init__(self, theta1, theta2, left, right):
         self.theta1 = theta1
@@ -97,10 +81,7 @@ class WeightedAnd(Formula):
         return f"WAND({self.theta1},{self.theta2},{self.left},{self.right})"
 
 
-# -------------------------------------------------
-# Weighted disjunction
-# WOR(theta1, theta2, φ1, φ2)
-# -------------------------------------------------
+
 class WeightedOr(Formula):
     def __init__(self, theta1, theta2, left, right):
         self.theta1 = theta1

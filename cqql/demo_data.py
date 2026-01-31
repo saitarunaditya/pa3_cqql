@@ -1,7 +1,3 @@
-# cqql/demo_data.py
-from cqql.normalization import default_get_attr
-
-# Attribute types: DB=0/1, others=[0,1]
 ATTR_TYPE = {
     # DB
     "balcony": "db",
